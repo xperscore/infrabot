@@ -51,7 +51,7 @@ def get_latest_tag(remote, version):
     return False, version
 
 
-@app.route('/issue-release')
+@app.route('/issue-release', methods=['POST'])
 def release():
     JOB_TOKEN = os.environ.get("JOB_TOKEN")
     JENKINS_TOKEN = os.environ.get("JENKINS_TOKEN")
@@ -109,7 +109,7 @@ def release():
     })
 
 
-@app.route('/slack-notify')
+@app.route('/slack-notify', methods=['GET','POST'])
 def notify():
     args = request.args
     challenge = args.get('challenge')
