@@ -12,7 +12,7 @@ env:
 
 # enable this flag to use knative serve to deploy the app
 knativeDeploy: false
-basedomain: whoknows.com
+basedomain: b.whoknows.com
 service:
   name: infrabot
   type: ClusterIP
