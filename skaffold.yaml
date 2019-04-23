@@ -1,4 +1,4 @@
-apiVersion: skaffold/v1beta8
+apiVersion: skaffold/v1beta7
 kind: Config
 build:
   artifacts:
@@ -10,5 +10,3 @@ build:
   tagPolicy:
     envTemplate:
       template: '{{.DOCKER_REGISTRY}}/xperscore/infrabot:{{.VERSION}}'
-deploy:
-  kubectl: {}
