@@ -2,11 +2,12 @@ apiVersion: skaffold/v1beta7
 kind: Config
 build:
   artifacts:
-  - image: '{{.DOCKER_REGISTRY}}/xperscore/infrabot'
+  - image: us.gcr.io/wkinfra-171623/xperscore/infrabot
     kaniko:
       buildContext:
         localDir: {}
-      cache: {}
+      cache:
+        repo: us.gcr.io/wkinfra-171623/xperscore/infrabot
   tagPolicy:
     envTemplate:
       template: '{{.DOCKER_REGISTRY}}/xperscore/infrabot:{{.VERSION}}'
