@@ -2,7 +2,7 @@ apiVersion: skaffold/v1beta8
 kind: Config
 build:
   artifacts:
-  - image: {{.DOCKER_REGISTRY}}/xperscore/infrabot
+  - image: '{{.DOCKER_REGISTRY}}/xperscore/infrabot'
     kaniko:
       buildContext:
         localDir: {}
