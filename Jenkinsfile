@@ -1,6 +1,6 @@
 pipeline {
   agent {
-    label "jenkins-python"
+    label "jenkins-python37"
   }
   environment {
     ORG = 'xperscore'
@@ -13,7 +13,7 @@ pipeline {
         branch 'master'
       }
       steps {
-        container('python37') {
+        container('python') {
           // ensure we're not on a detached head
           sh "git checkout master"
           sh "git config --global credential.helper store"
