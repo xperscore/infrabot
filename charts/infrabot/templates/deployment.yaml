@@ -28,6 +28,15 @@ spec:
         - name: {{ $pkey }}
           value: {{ $pval }}
 {{- end }}
+        envFrom:
+        {{- if .Values.deployment.envConfigMapRef }}
+        - configMapRef:
+            name: {{ .Values.deployment.envConfigMapRef }}
+        {{- end }}
+        {{- if .Values.deployment.envSecretRef }}
+        - secretRef:
+            name: {{ .Values.deployment.envSecretRef }}
+        {{- end }}
         ports:
         - containerPort: {{ .Values.service.internalPort }}
         resources:
