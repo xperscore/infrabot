@@ -29,13 +29,13 @@ spec:
           value: {{ $pval }}
 {{- end }}
         envFrom:
-        {{- if .Values.deployment.envConfigMapRef }}
+        {{- if .Values.envConfigMapRef }}
         - configMapRef:
-            name: {{ .Values.deployment.envConfigMapRef }}
+            name: {{ .Values.envConfigMapRef }}
         {{- end }}
-        {{- if .Values.deployment.envSecretRef }}
+        {{- if .Values.envSecretRef }}
         - secretRef:
-            name: {{ .Values.deployment.envSecretRef }}
+            name: {{ .Values.envSecretRef }}
         {{- end }}
         ports:
         - containerPort: {{ .Values.service.internalPort }}
