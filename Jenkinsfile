@@ -13,7 +13,7 @@ pipeline {
         branch 'master'
       }
       steps {
-        container('python') {
+        container('python37') {
           // ensure we're not on a detached head
           sh "git checkout master"
           sh "git config --global credential.helper store"
@@ -23,7 +23,7 @@ pipeline {
           sh "echo \$(jx-release-version) > VERSION"
           sh "jx step tag --version \$(cat VERSION)"
           sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml"
-          // sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
+          sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
         }
       }
     }
@@ -40,7 +40,7 @@ pipeline {
             sh "jx step helm release"
 
             // promote through all 'Auto' promotion Environments
-            sh "jx promote -b ---env production --timeout 1h --version \$(cat ../../VERSION) --verbose"
+            sh "jx promote -b ---env prod --timeout 1h --version \$(cat ../../VERSION) --verbose"
           }
         }
       }
