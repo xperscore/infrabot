@@ -15,7 +15,7 @@ WORKDIR /app
 COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-ADD infrabot /app
+ADD ./ /app
 
 ENTRYPOINT ["python"]
 CMD ["app.py"]
