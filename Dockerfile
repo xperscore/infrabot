@@ -1,7 +1,7 @@
 FROM python:3.7.2-stretch
 
-ARG pip_index_url="http://nexus.jx.whoknows.com/repository/pypi-all/simple"
-ARG pip_trusted_host="nexus.jx.whoknows.com"
+ARG pip_index_url="http://nexus/repository/pypi-all/simple"
+ARG pip_trusted_host="nexus"
 ARG pip_extra_index_url
 
 ENV PIP_INDEX_URL=$pip_index_url
