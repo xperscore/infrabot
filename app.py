@@ -84,8 +84,9 @@ def release():
         if err:
             return wkpy_result
         resp = requests.post("https://jenkins.jx.b.whoknows.com/job/promote_apps/buildWithParameters",
-                      auth=('admin', JENKINS_TOKEN),
-                      params={'token': JOB_TOKEN, "Version": wkpy_result, "notify": channel})
+                             auth=('admin', JENKINS_TOKEN),
+                             params={'token': JOB_TOKEN, "Version": wkpy_result, "notify": channel},
+                             allow_redirects=False)
         resp.raise_for_status()
         attachments.append({
             "color": "#149e1d",
@@ -97,8 +98,9 @@ def release():
         if err:
             return client_result
         resp = requests.post("https://jenkins.jx.b.whoknows.com/job/promote_clients/buildWithParameters",
-                      auth=('admin', JENKINS_TOKEN),
-                      params={'token': JOB_TOKEN, "Version": client_result, "notify": channel})
+                             auth=('admin', JENKINS_TOKEN),
+                             params={'token': JOB_TOKEN, "Version": client_result, "notify": channel},
+                             allow_redirects=False)
         resp.raise_for_status()
         attachments.append({
             "color": "#149e1d",
@@ -111,7 +113,7 @@ def release():
     })
 
 
-@app.route('/slack-notify', methods=['GET','POST'])
+@app.route('/slack-notify', methods=['GET', 'POST'])
 def notify():
     args = request.args
     challenge = args.get('challenge')
@@ -148,7 +150,7 @@ def notify():
 
 @app.route('/')
 def root():
-  return "Hello."
+    return "Hello."
 
 
 if __name__ == '__main__':
