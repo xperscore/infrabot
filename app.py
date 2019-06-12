@@ -83,9 +83,10 @@ def release():
         err, wkpy_result = get_latest_tag("wkpython", version)
         if err:
             return wkpy_result
-        requests.post("http://jenkins.jx.whoknows.com/job/promote_apps/buildWithParameters",
+        resp = requests.post("https://jenkins.jx.b.whoknows.com/job/promote_apps/buildWithParameters",
                       auth=('admin', JENKINS_TOKEN),
                       params={'token': JOB_TOKEN, "Version": wkpy_result, "notify": channel})
+        resp.raise_for_status()
         attachments.append({
             "color": "#149e1d",
             "text": "Triggered promotion for wkpython at version {0}".format(wkpy_result)
@@ -95,9 +96,10 @@ def release():
         err, client_result = get_latest_tag("whoknowswebapp", version)
         if err:
             return client_result
-        requests.post("http://jenkins.jx.whoknows.com/job/promote_clients/buildWithParameters",
+        resp = requests.post("https://jenkins.jx.b.whoknows.com/job/promote_clients/buildWithParameters",
                       auth=('admin', JENKINS_TOKEN),
                       params={'token': JOB_TOKEN, "Version": client_result, "notify": channel})
+        resp.raise_for_status()
         attachments.append({
             "color": "#149e1d",
             "text": "Triggered promotion for clients at version {0}".format(client_result)
@@ -140,6 +142,7 @@ def notify():
     }
     headers = {"Authorization": "Bearer {token}".format(token=SLACK_TOKEN)}
     resp = requests.post("https://slack.com/api/chat.postMessage", headers=headers, json=message)
+    resp.raise_for_status()
     return resp.text
 
 
