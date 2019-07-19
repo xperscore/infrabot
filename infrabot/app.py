@@ -7,9 +7,9 @@ import slack
 from flask import Flask, request, jsonify
 from sentry_sdk.integrations.flask import FlaskIntegration
 
-from infrabot.release.issuer import ReleaseIssuer
-from infrabot.release.message_builder import ReleaseNotificationBuilder
-from infrabot.utils import slack_response, parse_release
+from .release.issuer import ReleaseIssuer
+from .release.message_builder import ReleaseNotificationBuilder
+from .utils import slack_response, parse_release
 
 sentry_sdk.init(
     dsn="https://ecbf999a71f748d7b54875ece61195f9@sentry.io/1443099",

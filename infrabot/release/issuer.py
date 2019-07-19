@@ -2,7 +2,7 @@ import os
 
 import requests
 
-from infrabot.utils import slack_response
+from ..utils import slack_response
 
 JOB_TOKEN = os.environ.get("JOB_TOKEN")
 JENKINS_TOKEN = os.environ.get("JENKINS_TOKEN")
