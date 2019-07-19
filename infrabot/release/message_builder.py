@@ -18,15 +18,12 @@ class ReleaseNotificationBuilder:
         ]
 
     def _get_title_block(self):
-        return [
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": "A new release has been auto-promoted to staging.",
-                },
-            }
-        ]
+        text = (
+            "A new release has been promoted to <https://staging.whoknows.com|staging>"
+        )
+        if self.job_uri:
+            text = f"{text} by <{self.job_uri}|{self.job or self.job_uri}>"
+        return [{"type": "section", "text": {"type": "mrkdwn", "text": text + "."}}]
 
     def _get_changelog_block(self):
         return [
@@ -73,7 +70,7 @@ class ReleaseNotificationBuilder:
                             "confirm": {"type": "plain_text", "text": "I understand"},
                             "deny": {
                                 "type": "plain_text",
-                                "text": "Let's do more QA, instead!",
+                                "text": "No, let's do more QA",
                             },
                         },
                     }

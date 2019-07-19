@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import json
+import logging
 import os
 
 import sentry_sdk
@@ -15,8 +16,8 @@ sentry_sdk.init(
     dsn="https://ecbf999a71f748d7b54875ece61195f9@sentry.io/1443099",
     integrations=[FlaskIntegration()],
 )
-
 app = Flask(__name__)
+app.logger.setLevel(logging.INFO)
 
 slack_client = slack.WebClient(token=os.environ.get("SLACK_TOKEN"))
 
@@ -150,6 +151,7 @@ def react():
     """
     args = request.form
     payload = json.loads(args.get("payload"))
+    logging.info(payload)
     channel = payload["channel"]["name"]
     user = payload["user"]["username"]
     actions = payload.get("actions", [])
@@ -162,10 +164,11 @@ def react():
             ).make_release()
             if err:
                 return err
-            slack_client.chat_postMessage(
+            resp = slack_client.chat_postMessage(
                 channel=channel,
                 text=f"@{user} started promotion of `{project}@{version}` to production.",
             )
+            logging.info(resp["message"]["text"])
     return True
 
 
@@ -180,4 +183,4 @@ def trigger_error():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=os.environ.get("DEBUG") == "TRUE")
