@@ -57,7 +57,7 @@ class ReleaseIssuer(object):
             resp.raise_for_status()
             results.append(("wkpython", wkpy_result))
 
-        if self.project in ["clients", "all"]:
+        if self.project in ["clients", "whoknowswebapp", "all"]:
             err, client_result = get_latest_tag("whoknowswebapp", self.version)
             if err:
                 return err, client_result

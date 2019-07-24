@@ -5,6 +5,7 @@ class ReleaseNotificationBuilder:
     def __init__(self, **job_args):
         self.version = job_args.get("tag")  # TAG_VERSION
         self.repo = job_args.get("repo")  # ORG
+        self.app = job_args.get("appname", self.repo)  # ORG
         self.job = job_args.get("job")  # BUILD_TAG
         self.job_uri = job_args.get("job_uri")  # RUN_DISPLAY_URL
 
@@ -31,7 +32,7 @@ class ReleaseNotificationBuilder:
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": f"<https://github.com/xperscore/{self.repo}/releases/tag/v{self.version}| View changelog>",
+                    "text": f"<https://github.com/xperscore/{self.app}/releases/tag/v{self.version}| View changelog>",
                 },
             }
         ]
@@ -41,7 +42,7 @@ class ReleaseNotificationBuilder:
             {
                 "type": "section",
                 "fields": [
-                    {"type": "mrkdwn", "text": f"*Application:*\n{self.repo}"},
+                    {"type": "mrkdwn", "text": f"*Application:*\n{self.app}"},
                     {"type": "mrkdwn", "text": f"*Version:*\n{self.version}"},
                 ],
             }
@@ -60,12 +61,12 @@ class ReleaseNotificationBuilder:
                             "text": ":thumbsup: Promote to Production",
                         },
                         "action_id": self.PROMOTE_ACTION_ID,
-                        "value": f"{self.repo}_{self.version}",
+                        "value": f"{self.app}_{self.version}",
                         "confirm": {
                             "title": {"type": "plain_text", "text": "Are you sure?"},
                             "text": {
                                 "type": "mrkdwn",
-                                "text": f"This action will release version {self.version} of {self.repo} to the production environment.",
+                                "text": f"This action will release version {self.version} of {self.app} to the production environment.",
                             },
                             "confirm": {"type": "plain_text", "text": "I understand"},
                             "deny": {
@@ -85,7 +86,7 @@ class ReleaseNotificationBuilder:
                 "elements": [
                     {
                         "type": "mrkdwn",
-                        "text": f"Promote to other environments with the command `/release {self.repo}@{self.version} to $ENV`",
+                        "text": f"Promote to other environments with the command `/release {self.app}@{self.version} to $ENV`",
                     }
                 ],
             }

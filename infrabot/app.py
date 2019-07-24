@@ -33,10 +33,10 @@ def release():
     text = args.get("text")
     project, version, env = parse_release(text)
 
-    if project not in ["clients", "wkpython", "all"]:
+    if project not in ["clients", "whoknowswebapp", "wkpython", "all"]:
         return slack_response(
             "Invalid project: {}".format(project),
-            "Must be one of either `clients`, `wkpython`, or `all`.",
+            "Must be one of either `whoknowswebapp`, `wkpython`, or `all`.",
         )
     if version != "latest" and not version.startswith("v"):
         return slack_response(
