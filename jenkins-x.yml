@@ -1,1 +1,19 @@
 buildPack: python
+pipelineConfig:
+  pipelines:
+    release:
+      promote:
+        replace: true
+        steps:
+          - command: jx step changelog --version v${VERSION}
+            dir: /workspace/source/charts/infrabot
+            image: python
+            name: changelog
+          - command: jx step helm release
+            dir: /workspace/source/charts/infrabot
+            image: python
+            name: helm-release
+          - command: jx promote -b --env=dev --timeout 1h --version ${VERSION}
+            dir: /workspace/source/charts/infrabot
+            image: python
+            name: jx-promote
