@@ -1,6 +1,7 @@
 import os
 
 import requests
+import subprocess
 
 from utils import slack_response
 
@@ -38,39 +39,33 @@ class ReleaseIssuer(object):
         self.version = version
         self.env = env
 
+    def _jx_promote(self, app, version):
+        cmd = [
+            "jx",
+            f"promote --app={app} --version={version} --env=production --batch-mode --verbose",
+        ]
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        o, e = proc.communicate(timeout=60 * 60)
+
+        print("Output: " + o.decode("ascii"))
+        print("Error: " + e.decode("ascii"))
+        print("code: " + str(proc.returncode))
+        return o.decode("ascii")
+
     def make_release(self):
         results = []
         if self.project in ["wkpython", "all"]:
             err, wkpy_result = get_latest_tag("wkpython", self.version)
             if err:
                 return err, wkpy_result
-            resp = requests.post(
-                "https://jenkins.jx.b.whoknows.com/job/promote_apps/buildWithParameters",
-                auth=("admin", JENKINS_TOKEN),
-                params={
-                    "token": JOB_TOKEN,
-                    "Version": wkpy_result,
-                    "notify": self.channel,
-                },
-                allow_redirects=False,
-            )
-            resp.raise_for_status()
+            self._jx_promote(app="wkpython", version=wkpy_result)
             results.append(("wkpython", wkpy_result))
 
         if self.project in ["clients", "whoknowswebapp", "all"]:
             err, client_result = get_latest_tag("whoknowswebapp", self.version)
             if err:
                 return err, client_result
-            resp = requests.post(
-                "https://jenkins.jx.b.whoknows.com/job/promote_clients/buildWithParameters",
-                auth=("admin", JENKINS_TOKEN),
-                params={
-                    "token": JOB_TOKEN,
-                    "Version": client_result,
-                    "notify": self.channel,
-                },
-                allow_redirects=False,
-            )
-            resp.raise_for_status()
+            self._jx_promote(app="whoknowswebapp", version=client_result)
             results.append(("clients", client_result))
         return None, results

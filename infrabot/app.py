@@ -26,6 +26,10 @@ slack_client = slack.WebClient(token=os.environ.get("SLACK_TOKEN"))
 def release():
     args = request.form
     channel = args.get("channel_name")
+    api_key = args.get("api_key")
+    if api_key != "d1xPuSgFjzFdvtceIXuPjEl4pj6WBj4oExDpm":
+        return "", 200
+
     if channel == "directmessage":
         return slack_response(
             "Warning", "Please trigger releases from a public slack channel like #dev."

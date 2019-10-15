@@ -1,8 +1,8 @@
-FROM python:3.7.2-stretch
+FROM gcr.io/jenkinsxio/builder-python37:2.0.856-211
 
 ARG pip_index_url="http://nexus/repository/pypi-all/simple"
 ARG pip_trusted_host="nexus"
-ARG pip_extra_index_url="https://nexus.jx.b.whoknows.com/repository/pypi-all/simple"
+ARG pip_extra_index_url
 
 ENV PIP_INDEX_URL=$pip_index_url
 ENV PIP_TRUSTED_HOST=$pip_trusted_host
@@ -13,9 +13,9 @@ EXPOSE 5000
 WORKDIR /app
 
 COPY ./requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 ADD ./infrabot /app/infrabot
 
-ENTRYPOINT ["python"]
+ENTRYPOINT ["python3"]
 CMD ["infrabot/app.py"]

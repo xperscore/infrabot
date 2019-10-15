@@ -24,10 +24,7 @@ spec:
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
-{{- range $pkey, $pval := .Values.env }}
-        - name: {{ $pkey }}
-          value: {{ $pval }}
-{{- end }}
+{{ toYaml .Values.env | indent 12 }}
         envFrom:
         {{- if .Values.envConfigMapRef }}
         - configMapRef:
@@ -41,4 +38,8 @@ spec:
         - containerPort: {{ .Values.service.internalPort }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}
+        volumeMounts:
+{{ toYaml .Values.volumeMounts | indent 12 }}
+      volumes:
+{{ toYaml .Values.volumes | indent 10 }}
 {{- end }}

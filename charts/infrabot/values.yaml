@@ -9,7 +9,20 @@ image:
 
 # define environment variables here as a map of key: value
 env:
-
+  - name: GIT_AUTHOR_NAME
+    value: whoknowsbot
+  - name: GIT_AUTHOR_EMAIL
+    value: goodbot@whoknows.com
+  - name: GIT_USERNAME
+    valueFrom:
+      secretKeyRef:
+        key: username
+        name: jx-pipeline-git-github-github
+  - name: GIT_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        key: password
+        name: jx-pipeline-git-github-github
 # enable this flag to use knative serve to deploy the app
 knativeDeploy: false
 basedomain: b.whoknows.com
@@ -42,3 +55,12 @@ readinessProbe:
   successThreshold: 1
   timeoutSeconds: 1
 terminationGracePeriodSeconds: 10
+volumeMounts:
+- mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+  name: tekton-bot-token-4dlmt
+  readOnly: true
+volumes:
+- name: tekton-bot-token-4dlmt
+  secret:
+    defaultMode: 420
+    secretName: tekton-bot-token-4dlmt
