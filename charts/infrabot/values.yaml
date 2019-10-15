@@ -13,16 +13,6 @@ env:
     value: whoknowsbot
   - name: GIT_AUTHOR_EMAIL
     value: goodbot@whoknows.com
-  - name: GIT_USERNAME
-    valueFrom:
-      secretKeyRef:
-        key: username
-        name: jx-pipeline-git-github-github
-  - name: GIT_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        key: password
-        name: jx-pipeline-git-github-github
 # enable this flag to use knative serve to deploy the app
 knativeDeploy: false
 basedomain: whoknows.com
