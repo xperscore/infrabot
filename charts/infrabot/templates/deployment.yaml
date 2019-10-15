@@ -38,8 +38,10 @@ spec:
         - containerPort: {{ .Values.service.internalPort }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}
+{{- if .Values.volumes }}
         volumeMounts:
 {{ toYaml .Values.volumeMounts | indent 12 }}
       volumes:
 {{ toYaml .Values.volumes | indent 10 }}
+{{- end }}
 {{- end }}

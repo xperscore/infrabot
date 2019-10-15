@@ -13,7 +13,7 @@ pipelineConfig:
             dir: /workspace/source/charts/infrabot
             image: python
             name: helm-release
-          - command: jx promote -b --env=dev --timeout 1h --version ${VERSION}
+          - command: jx promote -b --env=production --timeout 1h --version ${VERSION}
             dir: /workspace/source/charts/infrabot
             image: python
             name: jx-promote

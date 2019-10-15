@@ -25,7 +25,7 @@ env:
         name: jx-pipeline-git-github-github
 # enable this flag to use knative serve to deploy the app
 knativeDeploy: false
-basedomain: b.whoknows.com
+basedomain: whoknows.com
 service:
   name: infrabot
   type: ClusterIP
@@ -55,12 +55,12 @@ readinessProbe:
   successThreshold: 1
   timeoutSeconds: 1
 terminationGracePeriodSeconds: 10
-volumeMounts:
-- mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-  name: tekton-bot-token-4dlmt
-  readOnly: true
-volumes:
-- name: tekton-bot-token-4dlmt
-  secret:
-    defaultMode: 420
-    secretName: tekton-bot-token-4dlmt
+#volumeMounts:
+#- mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+#  name: tekton-bot-token
+#  readOnly: true
+#volumes:
+#- name: tekton-bot-token
+#  secret:
+#    defaultMode: 420
+#    secretName: tekton-bot-token
