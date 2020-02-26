@@ -1,4 +1,4 @@
 Flask
 requests
 slackclient>=2.0.0
-sentry-sdk[flask]==0.10.2
+sentry-sdk[flask]==0.14.2
