@@ -1,0 +1,15 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "13:00"
+  ignore:
+  - dependency-name: sentry-sdk[flask]
+    versions:
+    - 0.19.5
+    - 0.20.0
+    - 0.20.1
+    - 0.20.2
+    - 0.20.3
